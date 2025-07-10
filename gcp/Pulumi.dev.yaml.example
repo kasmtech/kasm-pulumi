@@ -1,0 +1,36 @@
+config:
+  kasm-gcp:data:
+    region: us-west2
+    zone: us-west2-a
+    auto_enable_gcp_api: true
+    vm_enable_ssh: true
+    domain: kasm.kasm-test.com
+    agent_size: e2-standard-4
+    agent_number: 2
+    agent_disk_size: 100
+    db_tier: db-custom-2-3840
+    cloud_dns_zone:
+      create: true
+      zone_name: kasm-test-com
+      zone_dns_name: kasm-test.com.
+    additional_kasm_zone:
+      - name: europe
+        region: europe-west2
+        zone: europe-west2-a
+        proxy_size: e2-standard-2
+        agent_size: e2-standard-4
+        agent_number: 2
+        domain: "europe.kasm.kasm-test.com"
+        proxy_domain: "proxy-europe.kasm.kasm-test.com"
+      - name: asia
+        region: asia-northeast1
+        zone: asia-northeast1-a
+        proxy_size: e2-standard-2
+        agent_size: e2-standard-4
+        agent_number: 1
+        domain: "asia.kasm.kasm-test.com"
+        proxy_domain: "proxy-asia.kasm.kasm-test.com"
+  gcp:project: xxx
+
+
+

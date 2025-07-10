@@ -1,0 +1,20 @@
+api:
+  auth_token: JWTTOKEN
+  public_jwt_cert: PUBLICCERT
+  hostnames: [ "example.example.com" ]
+  port: 443
+  hostname_refresh_interval: 30
+  schema: https
+rdp-gateway:
+  id: auto
+  registration_token: REGISTRATION_TOKEN
+  server_address: kasm-rdp-https-gateway
+  rdp_address: kasm-rdp-gateway
+  server_port: 9443
+  zone: default
+  keepalive_loop_interval: 30
+  kubernetes: true
+  kasm_delete_session_watch_interval: 60
+logging:
+  network_logging:
+    log_path: /api/v1/log

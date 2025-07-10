@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: debug-pod
+  namespace: kasm
+spec:
+  containers:
+    - name: debug-container
+      image: nicolaka/netshoot
+      command: ["sleep", "3600"]
+  restartPolicy: Never
