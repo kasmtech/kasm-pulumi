@@ -1,0 +1,32 @@
+config:
+  aws:region: eu-west-2
+  kasm-aws:data:
+    vm_enable_ssh: true
+    db_instance_class: db.t4g.medium
+    region: us-west-2
+    availability_zone: us-west-2a
+    additional_availability_zone: us-west-2b
+    domain: kasm.kasm-test-aws.com
+    agent_size: t3.xlarge
+    agent_number: 2
+    agent_disk_size: 100
+    aws_route_53_zone_id: Z0970401MONU7MKC0BX9
+    additional_kasm_zone:
+      - name: europe
+        region: eu-west-2
+        availability_zone: eu-west-2a
+        additional_availability_zone: eu-west-2b
+        proxy_size: t3.large
+        agent_size: t3.xlarge
+        agent_number: 2
+        domain: "europe.kasm.kasm-test-aws.com"
+        proxy_domain: "proxy-europe.kasm.kasm-test-aws.com"
+      - name: asia
+        region: ap-northeast-1
+        availability_zone: ap-northeast-1a
+        additional_availability_zone: ap-northeast-1c
+        proxy_size: t3.large
+        agent_size: t3.xlarge
+        agent_number: 1
+        domain: "asia.kasm.kasm-test-aws.com"
+        proxy_domain: "proxy-asia.kasm.kasm-test-aws.com"

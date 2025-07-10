@@ -1,0 +1,98 @@
+version: '3'
+services:
+  kasm_guac:
+    container_name: kasm-guac
+    user: "1003:1005"
+    #    image: "kasmweb/kasm-guac${IMAGE_PRIVATE}:${IMAGE_TAG}"
+    #    image: "kasmweb/kasm-guac-dev:dev"
+    image: "kasmweb/kasm-guac:1.17.0"
+    read_only: false
+    networks:
+      - kasm_default_network
+    #volumes:
+    #  - /home/kasm-user/kubernetes/kasm_backend/guac_server/gclient:/gclient
+    tmpfs:
+      - /tmp
+      - /opt/kasm/current/tmp/guac
+    environment:
+      API_PORT: "443"
+      API_SCHEMA: "https"
+      KUBERNETES_SERVICE_HOST: "Kubernetes"
+      API_HOSTNAME: ${KASM_API_HOSTNAME}
+      REGISTRATION_TOKEN: ${KASM_REGISTRATION_TOKEN}
+      ZONE: ${KASM_ZONE}
+      SERVER_ZONE_NAME: ${KASM_ZONE}
+      SERVER_ADDRESS: ${SERVER_ADDRESS}
+      SERVER_PORT: "8080"
+    restart: always
+  rdp_gateway:
+    container_name: rdp-gateway
+    #    image: "kasmweb/rdp-gateway${RDP_IMAGE_PRIVATE}:${RDP_IMAGE_TAG}"
+    #    image: "kasmweb/rdp-gateway-dev:dev"
+    image: "kasmweb/rdp-gateway:1.17.0"
+    ports:
+      - "3389:3389"
+    read_only: false
+    networks:
+      - kasm_default_network
+    volumes:
+      - ./certs/server.crt:/usr/local/etc/rdpproxy/rdpproxy.crt
+      - ./certs/server.key:/usr/local/etc/rdpproxy/rdpproxy.key
+      #- ./redemption/tools/passthrough/passthrough.py:/usr/local/share/passthrough/passthrough.py
+    environment:
+      API_PORT: "443"
+      API_SCHEMA: "https"
+      KUBERNETES_SERVICE_HOST: "Kubernetes"
+      API_HOSTNAME: ${KASM_API_HOSTNAME}
+      REGISTRATION_TOKEN: ${KASM_REGISTRATION_TOKEN}
+      ZONE: ${KASM_ZONE}
+      SERVER_ZONE_NAME: ${KASM_ZONE}
+    restart: always
+  kasm_rdp_https_gateway:
+    container_name: rdp-https-gateway
+    #    image: "kasmweb/rdp-https-gateway${RDPHTTPS_IMAGE_PRIVATE}:${RDPHTTPS_IMAGE_TAG}"
+    #    image: "kasmweb/rdp-https-gateway:develop"
+    image: "kasmweb/rdp-https-gateway:1.17.0"
+    ports:
+      - "9443:9443"
+    depends_on:
+      - rdp_gateway
+    networks:
+      - kasm_default_network
+    environment:
+      KUBERNETES_SERVICE_HOST: "Kubernetes"
+      API_HOSTNAME: ${KASM_API_HOSTNAME}
+      REGISTRATION_TOKEN: ${KASM_REGISTRATION_TOKEN}
+      ZONE: ${KASM_ZONE}
+      SERVER_ZONE_NAME: ${KASM_ZONE}
+    volumes:
+      - ./certs/server.key:/opt/rdpgw/key.pem
+      - ./certs/server.crt:/opt/rdpgw/server.pem
+      - ./rdpgw_kasm.yaml:/opt/rdpgw/conf/rdp_https_gateway.app.config.yaml
+    restart: always
+  kasm-proxy:
+    container_name: kasm_proxy
+    #    image: "kasmweb/proxy${IMAGE_PRIVATE}:${IMAGE_TAG}"
+    #    image: "kasmweb/proxy:develop"
+    image: "kasmweb/proxy:1.17.0"
+    ports:
+      - "443:443"
+      - "8080:8080"
+    networks:
+      kasm_default_network:
+        aliases:
+          - proxy
+    depends_on:
+      - kasm_guac
+      - rdp_gateway
+      - kasm_rdp_https_gateway
+    restart: always
+    volumes:
+      - ./conf/nginx:/etc/nginx/conf.d
+      - ./certs/server.crt:/etc/ssl/certs/kasm_nginx.crt
+      - ./certs/server.key:/etc/ssl/private/kasm_nginx.key
+networks:
+  kasm_default_network:
+    driver: bridge
+    name: kasm_default_network
+    external: true
