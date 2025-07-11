@@ -24,4 +24,4 @@ The example scripts provide the capability to deploy a multi-zone Kasm across va
 
 ### Current Supported Cloud Providers
 - [GCP](./gcp/README.md): Deploy multi-zone Kasm to your GCP project
-- [AWS](./aws/README.md): Deploy multi-zone Kasm to your GCP account
+- [AWS](./aws/README.md): Deploy multi-zone Kasm to your AWS account
