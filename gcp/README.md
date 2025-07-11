@@ -8,7 +8,7 @@ This example automates the deployment of a **multi-zone Kasm** across Google Clo
 Before using the Pulumi script, ensure that the following requirements are met:
 
 - **Pulumi**: Install [Pulumi](https://www.pulumi.com/docs/get-started/) to manage your infrastructure as code.
-- **Python**: Make sure [Python](https://www.python.org/downloads/) 3.12 or higher is installed on your machine, along with [pip](https://packaging.python.org/en/latest/guides/installing-using-linux-tools/) and [virtualenv](https://virtualenv.pypa.io/en/latest/installation.html).  If you're having trouble setting up Python on your machine, see [Python 3 Installation & Setup Guide](https://realpython.com/installing-python/) for detailed installation instructions on various operating systems and distributions.
+- **Python ≥ 3.10**: Make sure [Python](https://www.python.org/downloads/) 3.10 or higher is installed on your machine, along with [pip](https://packaging.python.org/en/latest/guides/installing-using-linux-tools/) and [virtualenv](https://virtualenv.pypa.io/en/latest/installation.html).  If you're having trouble setting up Python on your machine, see [Python 3 Installation & Setup Guide](https://realpython.com/installing-python/) for detailed installation instructions on various operating systems and distributions.
 - **GCP Account**: You’ll need a Google Cloud Platform (GCP) account with appropriate permissions to create and manage resources.
   - A list of required IAM permissions can be found [here](docs/GCP_PERMISSIONS.md).
   - A list of required GCP APIs can be found [here](docs/GCP_APIS.md).
